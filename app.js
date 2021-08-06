@@ -2,12 +2,12 @@ const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 
-const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
+const groceryRouter = require("./routes/Grocery/GroceryRouter");
+const errorController = require("./routes/utils/errorController");
+const ErrorMessageHandlerClass = require("./routes/utils/ErrorMessageHandlerClass");
 
 const app = express();
 
-console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === "development") {
   app.use(logger("dev"));
 }
@@ -15,8 +15,7 @@ if (process.env.NODE_ENV === "development") {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/api/grocery", groceryRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
