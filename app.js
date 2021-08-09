@@ -11,7 +11,7 @@ const app = express();
 if (process.env.NODE_ENV === "development") {
   app.use(logger("dev"));
 }
-
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

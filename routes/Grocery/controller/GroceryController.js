@@ -9,6 +9,28 @@ const getAllGroceries = async function (req, res) {
   }
 };
 
+const sortGroceryByDate = async function (req, res) {
+  try {
+    let sort = req.query.sort;
+    let sortOrder = sort === "desc" ? -1 : 1;
+    let foundGrocery = await Grocery.find({}).sort({ Date: sortOrder });
+    res.json({ payload: foundGrocery });
+  } catch (e) {
+    res.json({ message: "failure", error: e.message });
+  }
+};
+
+const sortGroceryByPurchased = async function (req, res) {
+  try {
+    let purchased = req.query.purchased;
+    let isPurchasedOrder = purchased === "true" ? true : false;
+    let foundGrocery = await Grocery.find({ purchased: isPurchasedOrder });
+    res.json({ payload: foundGrocery });
+  } catch (e) {
+    res.json({ message: "failure", error: e.message });
+  }
+};
+
 const createGrocery = async function (req, res) {
   const { grocery } = req.body;
   try {
@@ -24,7 +46,7 @@ const createGrocery = async function (req, res) {
 };
 
 const updateGrocery = async function (req, res) {
-  let { grocery, purchased } = req.body;
+  const { grocery, purchased } = req.body;
 
   try {
     let updatedGrocery = await Grocery.findByIdAndUpdate(
@@ -56,4 +78,6 @@ module.exports = {
   createGrocery,
   updateGrocery,
   deleteGrocery,
+  sortGroceryByDate,
+  sortGroceryByPurchased,
 };
